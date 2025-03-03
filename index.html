@@ -13,14 +13,24 @@
             margin: 0;
             font-family: Arial, sans-serif;
             background: linear-gradient(135deg, #71b7e6, #9b59b6);
+            background-size: 400% 400%;
+            animation: gradientAnimation 10s ease infinite;
+            overflow: hidden;
         }
         
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .container {
             text-align: center;
             background-color: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1;
         }
         
         h1 {
@@ -58,6 +68,31 @@
             transform: rotateY(20deg);
         }
 
+        .logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            background-color: #333;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            font-size: 18px;
+            font-weight: bold;
+            animation: move 3s infinite;
+        }
+
+        @keyframes move {
+            0% { transform: translate(-50%, -50%) translate(0, 0); }
+            25% { transform: translate(-50%, -50%) translate(100vw, 0); }
+            50% { transform: translate(-50%, -50%) translate(100vw, 100vh); }
+            75% { transform: translate(-50%, -50%) translate(0, 100vh); }
+            100% { transform: translate(-50%, -50%) translate(0, 0); }
+        }
+
     </style>
 </head>
 <body>
@@ -67,9 +102,10 @@
         <button id="vote-button">VoteServer</button>
         <button id="group-button">Grup Server</button>
     </div>
+    <div class="logo" id="logo">Fuad</div>
     <script>
         document.getElementById('join-button').addEventListener('click', function() {
-            window.location.href = 'minecraft://?server=play.dragonmc.biz.id:19132';
+            window.location.href = 'minecraft://?addExternalServer=DragonMc|play.dragonmc.biz.id:19132';
         });
 
         document.getElementById('vote-button').addEventListener('click', function() {
