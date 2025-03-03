@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generate and Verify WhatsApp Numbers</title>
+    <title>Generate Random WhatsApp Numbers</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -44,6 +44,11 @@
     <div id="contacts"></div>
     <button class="button" onclick="generateRandomNumbers()">Generate Random Numbers</button>
     <div class="form-group">
+        <label for="phoneNumber">Enter Phone Number:</label>
+        <input type="text" id="phoneNumber" name="phoneNumber" required>
+    </div>
+    <button class="button" onclick="requestVerificationCode()">Request Verification Code</button>
+    <div class="form-group">
         <label for="verificationCode">Enter Verification Code:</label>
         <input type="text" id="verificationCode" name="verificationCode" required>
     </div>
@@ -51,21 +56,34 @@
     <div class="result" id="result"></div>
 
     <script>
-        async function generateRandomNumbers() {
+        const countryCodes = {
+            'US': '1',  // United States
+            'IN': '91', // India
+            'ID': '62', // Indonesia
+            'BR': '55', // Brazil
+            'NG': '234', // Nigeria
+            // Tambahkan kode negara lainnya di sini
+        };
+
+        function generateRandomNumbers() {
             const contactsDiv = document.getElementById('contacts');
             contactsDiv.innerHTML = ''; // Clear previous numbers
             for (let i = 0; i < 10; i++) { // Generate 10 random numbers
-                const randomNumber = Math.floor(Math.random() * 1000000000) + 6280000000; // Nomor acak dengan kode Indonesia (628)
+                const countryCodeKeys = Object.keys(countryCodes);
+                const randomCountryKey = countryCodeKeys[Math.floor(Math.random() * countryCodeKeys.length)];
+                const randomNumber = Math.floor(Math.random() * 1000000000);
+                const fullNumber = countryCodes[randomCountryKey] + randomNumber;
                 const contactDiv = document.createElement('div');
                 contactDiv.className = 'contact';
                 contactDiv.innerHTML = `<h2>Nomor Kosong ${i + 1}</h2>
-                                        <p>Nomor WhatsApp: ${randomNumber}</p>
-                                        <button class="button" onclick="requestVerificationCode(${randomNumber})">Request Verification Code</button>`;
+                                        <p>Negara: ${randomCountryKey}</p>
+                                        <p>Nomor WhatsApp: ${fullNumber}</p>`;
                 contactsDiv.appendChild(contactDiv);
             }
         }
 
-        async function requestVerificationCode(phoneNumber) {
+        async function requestVerificationCode() {
+            const phoneNumber = document.getElementById('phoneNumber').value;
             const response = await fetch('/request-verification', {
                 method: 'POST',
                 headers: {
@@ -90,7 +108,7 @@
             document.getElementById('result').innerText = result.message;
         }
     </script>
-    
+
     <script>
         // Backend code using Express.js
         const express = require('express');
@@ -101,6 +119,8 @@
         const port = 3000;
 
         app.use(bodyParser.json());
+
+        app.use(express.static(__dirname)); // Serve the HTML file
 
         app.post('/request-verification', async (req, res) => {
             const { phoneNumber } = req.body;
