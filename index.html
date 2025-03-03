@@ -12,16 +12,10 @@
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #71b7e6, #9b59b6);
-            background-size: 400% 400%;
-            animation: gradientAnimation 20s ease infinite;
+            background-image: url('PASTE_IMAGE_URL_HERE');
+            background-size: cover;
+            background-position: center;
             overflow: hidden;
-        }
-        
-        @keyframes gradientAnimation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
         }
 
         .container {
@@ -93,6 +87,24 @@
             100% { transform: translate(-50%, -50%) translate(0, 0); }
         }
 
+        .stickman {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50px;
+            height: 50px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="4" r="4"/><path d="M12 8c-1.1 0-2 .9-2 2v8h-2v4h2v-4h4v4h2v-4h-2v-8c0-1.1-.9-2-2-2z"/><path d="M4 22v-2h2v-8c0-1.1.9-2 2-2h8c1.1 0 2 .9 2 2v8h2v2H4z"/></svg>');
+            background-size: cover;
+            animation: moveStickman 10s linear infinite;
+        }
+
+        @keyframes moveStickman {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(90vw, 0); }
+            50% { transform: translate(90vw, 90vh); }
+            75% { transform: translate(0, 90vh); }
+            100% { transform: translate(0, 0); }
+        }
     </style>
 </head>
 <body>
@@ -102,28 +114,29 @@
         <button id="vote-button">VoteServer</button>
         <button id="group-button">Grup Server</button>
     </div>
-    <div class="logo" id="logo1">Fuad</div>
-    <div class="logo" id="logo2">Fuad</div>
-    <div class="logo" id="logo3">Fuad</div>
-    <div class="logo" id="logo4">Fuad</div>
-    <div class="logo" id="logo5">Fuad</div>
-    <div class="logo" id="logo6">Fuad</div>
-    <div class="logo" id="logo7">Fuad</div>
-    <div class="logo" id="logo8">Fuad</div>
-    <div class="logo" id="logo9">Fuad</div>
-    <div class="logo" id="logo10">Fuad</div>
-    <div class="logo" id="logo11">Al</div>
-    <div class="logo" id="logo12">Al</div>
-    <div class="logo" id="logo13">Al</div>
-    <div class="logo" id="logo14">Al</div>
-    <div class="logo" id="logo15">Muma</div>
-    <div class="logo" id="logo16">Muma</div>
-    <div class="logo" id="logo17">Muma</div>
-    <div class="logo" id="logo18">Muma</div>
-    <div class="logo" id="logo19">Septian</div>
-    <div class="logo" id="logo20">Septian</div>
-    <div class="logo" id="logo21">Septian</div>
-    <div class="logo" id="logo22">Septian</div>
+    <div class="logo">Fuad</div>
+    <div class="logo">Fuad</div>
+    <div class="logo">Fuad</div>
+    <div class="logo">Fuad</div>
+    <div class="logo">Fuad</div>
+    <div class="logo">Fuad</div>
+    <div class="logo">Fuad</div>
+    <div class="logo">Fuad</div>
+    <div class="logo">Fuad</div>
+    <div class="logo">Fuad</div>
+    <div class="logo">Al</div>
+    <div class="logo">Al</div>
+    <div class="logo">Al</div>
+    <div class="logo">Al</div>
+    <div class="logo">Muma</div>
+    <div class="logo">Muma</div>
+    <div class="logo">Muma</div>
+    <div class="logo">Muma</div>
+    <div class="logo">Septian</div>
+    <div class="logo">Septian</div>
+    <div class="logo">Septian</div>
+    <div class="logo">Septian</div>
+    <div class="stickman"></div>
     <script>
         document.getElementById('join-button').addEventListener('click', function() {
             window.location.href = 'minecraft://?addExternalServer=DragonMc|play.dragonmc.biz.id:19132';
