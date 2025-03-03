@@ -35,22 +35,56 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: transform 0.3s ease;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            margin: 10px;
         }
         
         button:hover {
             background-color: #218838;
         }
+        
+        button:active {
+            transform: scale(0.95);
+        }
+        
+        body {
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+
+        .container {
+            transform: rotateY(20deg);
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Welcome to DragonMc</h1>
         <button id="join-button">Join Now</button>
+        <button id="vote-button">VoteServer</button>
+        <button id="group-button">Grup Server</button>
     </div>
     <script>
         document.getElementById('join-button').addEventListener('click', function() {
-            window.location.href = 'minecraft://?addExternalServer=DragonMc|play.dragonmc.biz.id:19132';
+            window.location.href = 'minecraft://?server=play.dragonmc.biz.id:19132';
+        });
+
+        document.getElementById('vote-button').addEventListener('click', function() {
+            window.location.href = 'https://s.id/vote-dragonmc';
+        });
+
+        document.getElementById('group-button').addEventListener('click', function() {
+            window.location.href = 'https://s.id/wa-dragonmc';
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) - 0.5;
+            const y = (e.clientY / window.innerHeight) - 0.5;
+            const container = document.querySelector('.container');
+            container.style.transform = `rotateY(${x * 30}deg) rotateX(${-y * 30}deg)`;
         });
     </script>
 </body>
