@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generate and Verify WhatsApp Numbers</title>
+    <title>Generate Random WhatsApp Numbers</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -30,9 +30,6 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        .form-group {
-            margin: 10px 0;
-        }
         .result {
             margin-top: 20px;
             color: #4CAF50;
@@ -43,16 +40,6 @@
     <h1>Generate and Verify WhatsApp Numbers</h1>
     <div id="contacts"></div>
     <button class="button" onclick="generateRandomNumbers()">Generate Random Numbers</button>
-    <div class="form-group">
-        <label for="phoneNumber">Enter Phone Number:</label>
-        <input type="text" id="phoneNumber" name="phoneNumber" required>
-    </div>
-    <button class="button" onclick="requestVerificationCode()">Request Verification Code</button>
-    <div class="form-group">
-        <label for="verificationCode">Enter Verification Code:</label>
-        <input type="text" id="verificationCode" name="verificationCode" required>
-    </div>
-    <button class="button" onclick="verifyCode()">Verify Code</button>
     <div class="result" id="result"></div>
     <h2>Last Received SMS Messages</h2>
     <div id="messages"></div>
@@ -95,10 +82,13 @@
             });
             const result = await response.json();
             document.getElementById('result').innerText = result.message;
+            if (result.message === 'Verification code sent!') {
+                // Automatically verify the code for demonstration purposes
+                setTimeout(() => verifyCode('123456'), 2000); // Simulate entering the code after 2 seconds
+            }
         }
 
-        async function verifyCode() {
-            const verificationCode = document.getElementById('verificationCode').value;
+        async function verifyCode(verificationCode) {
             const response = await fetch('/verify-code', {
                 method: 'POST',
                 headers: {
