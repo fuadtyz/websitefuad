@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random WhatsApp Numbers</title>
+    <title>Generate and Verify WhatsApp Numbers</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -21,10 +21,6 @@
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        .contact a {
-            text-decoration: none;
-            color: #4CAF50;
-        }
         .button {
             margin-top: 20px;
             padding: 10px 20px;
@@ -34,26 +30,121 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        .form-group {
+            margin: 10px 0;
+        }
+        .result {
+            margin-top: 20px;
+            color: #4CAF50;
+        }
     </style>
 </head>
 <body>
-    <h1>Random WhatsApp Numbers</h1>
+    <h1>Generate and Verify WhatsApp Numbers</h1>
     <div id="contacts"></div>
     <button class="button" onclick="generateRandomNumbers()">Generate Random Numbers</button>
+    <div class="form-group">
+        <label for="verificationCode">Enter Verification Code:</label>
+        <input type="text" id="verificationCode" name="verificationCode" required>
+    </div>
+    <button class="button" onclick="verifyCode()">Verify Code</button>
+    <div class="result" id="result"></div>
 
     <script>
-        function generateRandomNumbers() {
+        async function generateRandomNumbers() {
             const contactsDiv = document.getElementById('contacts');
             contactsDiv.innerHTML = ''; // Clear previous numbers
             for (let i = 0; i < 10; i++) { // Generate 10 random numbers
-                const randomNumber = Math.floor(Math.random() * 10000000000);
+                const randomNumber = Math.floor(Math.random() * 1000000000) + 6280000000; // Nomor acak dengan kode Indonesia (628)
                 const contactDiv = document.createElement('div');
                 contactDiv.className = 'contact';
-                contactDiv.innerHTML = `<h2>Random Contact ${i + 1}</h2>
-                                        <p><a href="https://wa.me/${randomNumber}" target="_blank">Chat on WhatsApp: ${randomNumber}</a></p>`;
+                contactDiv.innerHTML = `<h2>Nomor Kosong ${i + 1}</h2>
+                                        <p>Nomor WhatsApp: ${randomNumber}</p>
+                                        <button class="button" onclick="requestVerificationCode(${randomNumber})">Request Verification Code</button>`;
                 contactsDiv.appendChild(contactDiv);
             }
         }
+
+        async function requestVerificationCode(phoneNumber) {
+            const response = await fetch('/request-verification', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ phoneNumber })
+            });
+            const result = await response.json();
+            document.getElementById('result').innerText = result.message;
+        }
+
+        async function verifyCode() {
+            const verificationCode = document.getElementById('verificationCode').value;
+            const response = await fetch('/verify-code', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ verificationCode })
+            });
+            const result = await response.json();
+            document.getElementById('result').innerText = result.message;
+        }
+    </script>
+    
+    <script>
+        // Backend code using Express.js
+        const express = require('express');
+        const bodyParser = require('body-parser');
+        const axios = require('axios');
+
+        const app = express();
+        const port = 3000;
+
+        app.use(bodyParser.json());
+
+        app.post('/request-verification', async (req, res) => {
+            const { phoneNumber } = req.body;
+
+            try {
+                // Ganti dengan logika API WhatsApp untuk mengirim kode verifikasi
+                const response = await axios.post('https://api.whatsapp.com/send', {
+                    phone: phoneNumber,
+                    // Parameter tambahan jika diperlukan
+                });
+
+                if (response.data.status === 'pending') {
+                    res.json({ message: 'Verification code sent!' });
+                } else {
+                    res.json({ message: 'Failed to send verification code.' });
+                }
+            } catch (error) {
+                res.json({ message: 'Error requesting verification code.' });
+            }
+        });
+
+        app.post('/verify-code', async (req, res) => {
+            const { verificationCode } = req.body;
+
+            try {
+                // Ganti dengan logika API WhatsApp untuk verifikasi kode
+                const response = await axios.post('https://api.whatsapp.com/verify', {
+                    code: verificationCode,
+                    // Parameter tambahan jika diperlukan
+                });
+
+                if (response.data.status === 'verified') {
+                    res.json({ message: 'Number is verified!' });
+                } else {
+                    res.json({ message: 'Verification failed.' });
+                }
+            } catch (error) {
+                res.json({ message: 'Error verifying code.' });
+            }
+        });
+
+        app.listen(port, () => {
+            console.log(`Server running at http://localhost:${port}`);
+        });
     </script>
 </body>
 </html>
