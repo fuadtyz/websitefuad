@@ -13,6 +13,7 @@
             background-color: #282c34;
             color: white;
             font-family: Arial, sans-serif;
+            flex-direction: column;
         }
         .button {
             padding: 15px 25px;
@@ -24,20 +25,36 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin: 10px;
         }
         .button:hover {
             background-color: #0056b3;
         }
+        .info {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-    <button class="button" onclick="joinServer()">Join Minecraft Server</button>
+    <button class="button" onclick="copyInfo()">Copy Server Info</button>
+    <div class="info">
+        IP: play.dragonmc.biz.id<br>
+        Port: 19132
+    </div>
 
     <script>
-        function joinServer() {
-            const serverIP = 'play.dragonmc.biz.id port = 19132;
-            window.location.href = `minecraft://${serverIP}:${port}`;
+        function copyInfo() {
+            const serverIP = 'play.dragonmc.biz.id';
+            const port = 19132;
+            const info = `IP: ${serverIP}\nPort: ${port}`;
+            navigator.clipboard.writeText(info).then(() => {
+                alert('Server info copied to clipboard!');
+            }, (err) => {
+                console.error('Could not copy text: ', err);
+            });
         }
     </script>
 </body>
-  </html>
+</html>
