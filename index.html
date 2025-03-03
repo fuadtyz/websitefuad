@@ -3,190 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generate Random WhatsApp Numbers</title>
+    <title>Free VPS Information</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
-            background-color: #f4f4f4;
+            background-color: rgba(0, 0, 0, 0.5); /* Transparent background with RGB overlay */
+            color: #333;
+            margin: 0;
+            padding: 0;
         }
-        h1 {
-            color: #4CAF50;
+
+        header {
+            background-color: rgba(0, 123, 255, 0.8); /* RGB with transparency */
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
         }
-        .contact {
-            margin: 10px 0;
-            padding: 10px;
-            background-color: #fff;
-            border-radius: 5px;
+
+        main {
+            padding: 2rem;
+        }
+
+        section {
+            background-color: rgba(255, 255, 255, 0.8); /* White background with transparency */
+            margin: 1rem 0;
+            padding: 1rem;
+            border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        .button {
+
+        h2 {
+            color: rgba(0, 123, 255, 0.8); /* RGB with transparency */
+        }
+
+        pre {
+            background-color: rgba(248, 249, 250, 0.8); /* Light background with transparency */
+            border: 1px solid #ddd;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        .button-container {
+            text-align: center;
             margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #4CAF50;
+        }
+
+        button {
+            background-color: rgba(0, 123, 255, 0.8); /* RGB with transparency */
             color: #fff;
             border: none;
-            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
             cursor: pointer;
+            border-radius: 5px;
         }
-        .result {
-            margin-top: 20px;
-            color: #4CAF50;
+
+        button:hover {
+            background-color: rgba(0, 86, 179, 0.8); /* Darker RGB with transparency for hover */
         }
     </style>
 </head>
 <body>
-    <h1>Generate and Verify WhatsApp Numbers</h1>
-    <div id="contacts"></div>
-    <button class="button" onclick="generateRandomNumbers()">Generate Random Numbers</button>
-    <div class="result" id="result"></div>
-    <h2>Last Received SMS Messages</h2>
-    <div id="messages"></div>
-
+    <header>
+        <h1>Free VPS Information</h1>
+    </header>
+    <main>
+        <section id="vps-details">
+            <h2>VPS Details</h2>
+            <p>IP Address: <span id="ip-address"></span></p>
+            <p>Username: <span id="username">root</span></p>
+            <p>Password: <span id="password"></span></p>
+        </section>
+        <section>
+            <h2>How to Connect</h2>
+            <pre id="connection-info"></pre>
+        </section>
+        <div class="button-container">
+            <button onclick="createVPS()">Create VPS</button>
+        </div>
+    </main>
     <script>
-        const countryCodes = {
-            'US': '1',  // United States
-            'IN': '91', // India
-            'ID': '62', // Indonesia
-            'BR': '55', // Brazil
-            'NG': '234', // Nigeria
-            // Tambahkan kode negara lainnya di sini
-        };
-
-        function generateRandomNumbers() {
-            const contactsDiv = document.getElementById('contacts');
-            contactsDiv.innerHTML = ''; // Clear previous numbers
-            for (let i = 0; i < 10; i++) { // Generate 10 random numbers
-                const countryCodeKeys = Object.keys(countryCodes);
-                const randomCountryKey = countryCodeKeys[Math.floor(Math.random() * countryCodeKeys.length)];
-                const randomNumber = Math.floor(Math.random() * 9000000000) + 1000000000; // Nomor acak dengan 10 digit
-                const fullNumber = countryCodes[randomCountryKey] + randomNumber;
-                const contactDiv = document.createElement('div');
-                contactDiv.className = 'contact';
-                contactDiv.innerHTML = `<h2>Nomor Kosong ${i + 1}</h2>
-                                        <p>Negara: ${randomCountryKey}</p>
-                                        <p>Nomor WhatsApp: ${fullNumber}</p>
-                                        <button class="button" onclick="requestVerificationCode('${fullNumber}')">Request Verification Code</button>`;
-                contactsDiv.appendChild(contactDiv);
-            }
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
-        async function requestVerificationCode(phoneNumber) {
-            const response = await fetch('/request-verification', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ phoneNumber })
-            });
-            const result = await response.json();
-            document.getElementById('result').innerText = result.message;
-            if (result.message === 'Verification code sent!') {
-                // Automatically verify the code for demonstration purposes
-                setTimeout(() => verifyCode('123456'), 2000); // Simulate entering the code after 2 seconds
-            }
+        function generateRandomIP() {
+            return `${getRandomInt(1, 255)}.${getRandomInt(0, 255)}.${getRandomInt(0, 255)}.${getRandomInt(0, 255)}`;
         }
 
-        async function verifyCode(verificationCode) {
-            const response = await fetch('/verify-code', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ verificationCode })
-            });
-            const result = await response.json();
-            document.getElementById('result').innerText = result.message;
-
-            // Request the last received messages after verification
-            if (result.message === 'Number is verified!') {
-                const messagesResponse = await fetch('/get-messages');
-                const messages = await messagesResponse.json();
-                const messagesDiv = document.getElementById('messages');
-                messagesDiv.innerHTML = ''; // Clear previous messages
-                messages.forEach((msg, index) => {
-                    const messageDiv = document.createElement('div');
-                    messageDiv.className = 'contact';
-                    messageDiv.innerHTML = `<h3>Message ${index + 1}</h3>
-                                            <p>From: ${msg.from}</p>
-                                            <p>Message: ${msg.text}</p>`;
-                    messagesDiv.appendChild(messageDiv);
-                });
+        function generateRandomPassword(length) {
+            const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                password += chars.charAt(getRandomInt(0, chars.length - 1));
             }
+            return password;
         }
-    </script>
 
-    <script>
-        // Backend code using Express.js
-        const express = require('express');
-        const bodyParser = require('body-parser');
-        const axios = require('axios');
+        function createVPS() {
+            const ipAddress = generateRandomIP();
+            const username = "root";
+            const password = generateRandomPassword(12); // Generate a 12-character password
 
-        const app = express();
-        const port = 3000;
+            document.getElementById("ip-address").textContent = ipAddress;
+            document.getElementById("username").textContent = username;
+            document.getElementById("password").textContent = password;
 
-        app.use(bodyParser.json());
+            const connectionInfo = `
+            To connect to your VPS:
+            1. Open your terminal or command prompt.
+            2. Use the following command:
+               ssh ${username}@${ipAddress}
+            3. When prompted, enter the password: ${password}
+            `;
 
-        app.use(express.static(__dirname)); // Serve the HTML file
-
-        app.post('/request-verification', async (req, res) => {
-            const { phoneNumber } = req.body;
-
-            try {
-                // Ganti dengan logika API WhatsApp untuk mengirim kode verifikasi
-                const response = await axios.post('https://api.whatsapp.com/send', {
-                    phone: phoneNumber,
-                    // Parameter tambahan jika diperlukan
-                });
-
-                if (response.data.status === 'pending') {
-                    res.json({ message: 'Verification code sent!' });
-                } else {
-                    res.json({ message: 'Failed to send verification code.' });
-                }
-            } catch (error) {
-                res.json({ message: 'Error requesting verification code.' });
-            }
-        });
-
-        app.post('/verify-code', async (req, res) => {
-            const { verificationCode } = req.body;
-
-            try {
-                // Ganti dengan logika API WhatsApp untuk verifikasi kode
-                const response = await axios.post('https://api.whatsapp.com/verify', {
-                    code: verificationCode,
-                    // Parameter tambahan jika diperlukan
-                });
-
-                if (response.data.status === 'verified') {
-                    res.json({ message: 'Number is verified!' });
-                } else {
-                    res.json({ message: 'Verification failed.' });
-                }
-            } catch (error) {
-                res.json({ message: 'Error verifying code.' });
-            }
-        });
-
-        // Endpoint untuk mendapatkan pesan terakhir
-        app.get('/get-messages', async (req, res) => {
-            try {
-                // Ganti dengan logika API untuk mendapatkan pesan terakhir
-                const messages = [
-                    { from: '+10000000000', text: 'Hello, this is a test message' },
-                    { from: '+20000000000', text: 'Verification code: 123456' }
-                ];
-                res.json(messages);
-            } catch (error) {
-                res.json({ message: 'Error retrieving messages.' });
-            }
-        });
-
-        app.listen(port, () => {
-            console.log(`Server running at http://localhost:${port}`);
-        });
+            document.getElementById("connection-info").textContent = connectionInfo;
+        }
     </script>
 </body>
 </html>
