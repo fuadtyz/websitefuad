@@ -1,36 +1,60 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="description"
-      content="All for one. All for fun. Play Bedwars, Creative, Duels, Murder Mystery, Skyblock and Skywars among other games with your friends now."
-    />
-    <meta
-      name="og:description"
-      content="All for one. All for fun. Play Bedwars, Creative, Duels, Murder Mystery, Skyblock and Skywars among other games with your friends now."
-    />
-    <meta name="og:title" content="NetherGames" />
-    <meta name="og:url" content="https://nethergames.org" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
-    <title>NetherGames</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Minecraft Server</title>
     <style>
-      .hidden {
-        clip: rect(0 0 0 0);
-        clip-path: inset(50%);
-        height: 1px;
-        overflow: hidden;
-        position: absolute;
-        white-space: nowrap;
-        width: 1px;
-      }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #282c34;
+            color: white;
+            font-family: Arial, sans-serif;
+            flex-direction: column;
+        }
+        .button {
+            padding: 15px 25px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .info {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+        }
     </style>
-    <script type="module" crossorigin src="/assets/index-DI2Xcx0H.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-2mWPA3X_.css">
-  </head>
-  <body>
-    <div id="root"></div>
-    <a href="https://waterdog.dev" target="_blank" class="hidden">WaterdogPE</a>
-    <a href="https://www.ticketbuddy.be" target="_blank" class="hidden">TicketBuddy</a>
-  </body>
+</head>
+<body>
+    <button class="button" onclick="copyInfo()">Copy Server Info</button>
+    <div class="info">
+        IP: play.dragonmc.biz.id<br>
+        Port: 19132
+    </div>
+
+    <script>
+        function copyInfo() {
+            const serverIP = 'play.dragonmc.biz.id';
+            const port = 19132;
+            const info = `IP: ${serverIP}\nPort: ${port}`;
+            navigator.clipboard.writeText(info).then(() => {
+                alert('Server info copied to clipboard!');
+            }, (err) => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+</body>
 </html>
