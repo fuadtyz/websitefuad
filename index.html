@@ -3,162 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free VPS Information</title>
+    <title>Join DragonMc Server</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: rgba(240, 240, 240, 0.8); /* Transparent background */
-            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             margin: 0;
-            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #71b7e6, #9b59b6);
         }
-
-        header {
-            background-color: rgba(0, 123, 255, 0.8); /* RGB color with transparency */
-            color: #fff;
-            padding: 1rem;
+        
+        .container {
             text-align: center;
-        }
-
-        main {
-            padding: 2rem;
-        }
-
-        section {
-            background-color: rgba(255, 255, 255, 0.8); /* RGB color with transparency */
-            margin: 1rem 0;
-            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-
-        h2 {
-            color: #007BFF;
+        
+        h1 {
+            color: #333;
         }
-
-        pre {
-            background-color: rgba(248, 249, 250, 0.8); /* Transparent background */
-            border: 1px solid #ddd;
-            padding: 1rem;
-            border-radius: 8px;
-            overflow-x: auto;
-        }
-
-        .button-container {
-            text-align: center;
-            margin-top: 20px;
-        }
-
+        
         button {
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
             padding: 10px 20px;
             font-size: 16px;
+            color: #ffffff;
+            background-color: #28a745;
+            border: none;
+            border-radius: 4px;
             cursor: pointer;
-            border-radius: 5px;
+            transition: background-color 0.3s;
         }
-
+        
         button:hover {
-            background-color: #0056b3;
+            background-color: #218838;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Free VPS Information</h1>
-    </header>
-    <main>
-        <section id="vps-details">
-            <h2>VPS Details</h2>
-            <p>IP Address: <span id="ip-address"></span></p>
-            <p>Username: <span id="username">root</span></p>
-            <p>Password: <span id="password"></span></p>
-        </section>
-        <section>
-            <h2>Select VPS Configuration</h2>
-            <label for="ram">RAM:</label>
-            <select id="ram">
-                <option value="1GB">1 GB</option>
-                <option value="2GB">2 GB</option>
-                <option value="4GB">4 GB</option>
-                <option value="8GB">8 GB</option>
-            </select>
-            <br>
-            <label for="cpu">CPU Cores:</label>
-            <select id="cpu">
-                <option value="1">1 Core</option>
-                <option value="2">2 Cores</option>
-                <option value="4">4 Cores</option>
-                <option value="8">8 Cores</option>
-            </select>
-        </section>
-        <section>
-            <h2>How to Connect</h2>
-            <pre id="connection-info"></pre>
-            <h3>Connecting with JuiceSSH (Android)</h3>
-            <ol>
-                <li>Download and install <a href="https://play.google.com/store/apps/details?id=com.sonelli.juicessh">JuiceSSH</a> from the Google Play Store.</li>
-                <li>Open JuiceSSH and tap on the "+" icon to create a new connection.</li>
-                <li>Enter the IP address, username, and password provided above.</li>
-                <li>Tap "Connect" to establish the connection.</li>
-            </ol>
-            <h3>Connecting with Termius (iOS/Android)</h3>
-            <ol>
-                <li>Download and install <a href="https://www.termius.com/">Termius</a> from the App Store or Google Play Store.</li>
-                <li>Open Termius and tap on the "+" icon to add a new host.</li>
-                <li>Enter the IP address, username, and password provided above.</li>
-                <li>Tap "Save" and then "Connect" to establish the connection.</li>
-            </ol>
-        </section>
-        <div class="button-container">
-            <button onclick="createVPS()">Create VPS</button>
-        </div>
-    </main>
+    <div class="container">
+        <h1>Welcome to DragonMc</h1>
+        <button id="join-button">Join Now</button>
+    </div>
     <script>
-        function getRandomInt(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-
-        function generateRandomIP() {
-            return `${getRandomInt(1, 255)}.${getRandomInt(0, 255)}.${getRandomInt(0, 255)}.${getRandomInt(0, 255)}`;
-        }
-
-        function generateRandomPassword(length) {
-            const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
-            let password = '';
-            for (let i = 0; i < length; i++) {
-                password += chars.charAt(getRandomInt(0, chars.length - 1));
-            }
-            return password;
-        }
-
-        function createVPS() {
-            const ipAddress = generateRandomIP();
-            const username = "root";
-            const password = generateRandomPassword(12); // Generate a 12-character password
-
-            document.getElementById("ip-address").textContent = ipAddress;
-            document.getElementById("username").textContent = username;
-            document.getElementById("password").textContent = password;
-
-            const ram = document.getElementById("ram").value;
-            const cpu = document.getElementById("cpu").value;
-
-            const connectionInfo = `
-            To connect to your VPS:
-            1. Open your terminal or command prompt.
-            2. Use the following command:
-               ssh ${username}@${ipAddress}
-            3. When prompted, enter the password: ${password}
-            
-            VPS Configuration:
-            RAM: ${ram}
-            CPU Cores: ${cpu}
-            `;
-
-            document.getElementById("connection-info").textContent = connectionInfo;
-        }
+        document.getElementById('join-button').addEventListener('click', function() {
+            window.location.href = 'minecraft://?addExternalServer=DragonMc|play.dragonmc.biz.id:19132';
+        });
     </script>
 </body>
 </html>
