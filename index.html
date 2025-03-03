@@ -60,7 +60,7 @@
             for (let i = 0; i < 10; i++) { // Generate 10 random numbers
                 const countryCodeKeys = Object.keys(countryCodes);
                 const randomCountryKey = countryCodeKeys[Math.floor(Math.random() * countryCodeKeys.length)];
-                const randomNumber = Math.floor(Math.random() * 1000000000);
+                const randomNumber = Math.floor(Math.random() * 9000000000) + 1000000000; // Nomor acak dengan 10 digit
                 const fullNumber = countryCodes[randomCountryKey] + randomNumber;
                 const contactDiv = document.createElement('div');
                 contactDiv.className = 'contact';
