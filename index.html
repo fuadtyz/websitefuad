@@ -7,14 +7,14 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: rgba(0, 0, 0, 0.5); /* Transparent background with RGB overlay */
+            background-color: rgba(240, 240, 240, 0.8); /* Transparent background */
             color: #333;
             margin: 0;
             padding: 0;
         }
 
         header {
-            background-color: rgba(0, 123, 255, 0.8); /* RGB with transparency */
+            background-color: rgba(0, 123, 255, 0.8); /* RGB color with transparency */
             color: #fff;
             padding: 1rem;
             text-align: center;
@@ -25,7 +25,7 @@
         }
 
         section {
-            background-color: rgba(255, 255, 255, 0.8); /* White background with transparency */
+            background-color: rgba(255, 255, 255, 0.8); /* RGB color with transparency */
             margin: 1rem 0;
             padding: 1rem;
             border-radius: 8px;
@@ -33,11 +33,11 @@
         }
 
         h2 {
-            color: rgba(0, 123, 255, 0.8); /* RGB with transparency */
+            color: #007BFF;
         }
 
         pre {
-            background-color: rgba(248, 249, 250, 0.8); /* Light background with transparency */
+            background-color: rgba(248, 249, 250, 0.8); /* Transparent background */
             border: 1px solid #ddd;
             padding: 1rem;
             border-radius: 8px;
@@ -50,7 +50,7 @@
         }
 
         button {
-            background-color: rgba(0, 123, 255, 0.8); /* RGB with transparency */
+            background-color: #007BFF;
             color: #fff;
             border: none;
             padding: 10px 20px;
@@ -60,7 +60,7 @@
         }
 
         button:hover {
-            background-color: rgba(0, 86, 179, 0.8); /* Darker RGB with transparency for hover */
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -78,6 +78,20 @@
         <section>
             <h2>How to Connect</h2>
             <pre id="connection-info"></pre>
+            <h3>Connecting with JuiceSSH (Android)</h3>
+            <ol>
+                <li>Download and install <a href="https://play.google.com/store/apps/details?id=com.sonelli.juicessh">JuiceSSH</a> from the Google Play Store.</li>
+                <li>Open JuiceSSH and tap on the "+" icon to create a new connection.</li>
+                <li>Enter the IP address, username, and password provided above.</li>
+                <li>Tap "Connect" to establish the connection.</li>
+            </ol>
+            <h3>Connecting with Termius (iOS/Android)</h3>
+            <ol>
+                <li>Download and install <a href="https://www.termius.com/">Termius</a> from the App Store or Google Play Store.</li>
+                <li>Open Termius and tap on the "+" icon to add a new host.</li>
+                <li>Enter the IP address, username, and password provided above.</li>
+                <li>Tap "Save" and then "Connect" to establish the connection.</li>
+            </ol>
         </section>
         <div class="button-container">
             <button onclick="createVPS()">Create VPS</button>
