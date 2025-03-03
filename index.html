@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generate Random WhatsApp Numbers</title>
+    <title>Generate and Verify WhatsApp Numbers</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -54,6 +54,8 @@
     </div>
     <button class="button" onclick="verifyCode()">Verify Code</button>
     <div class="result" id="result"></div>
+    <h2>Last Received SMS Messages</h2>
+    <div id="messages"></div>
 
     <script>
         const countryCodes = {
@@ -77,13 +79,13 @@
                 contactDiv.className = 'contact';
                 contactDiv.innerHTML = `<h2>Nomor Kosong ${i + 1}</h2>
                                         <p>Negara: ${randomCountryKey}</p>
-                                        <p>Nomor WhatsApp: ${fullNumber}</p>`;
+                                        <p>Nomor WhatsApp: ${fullNumber}</p>
+                                        <button class="button" onclick="requestVerificationCode('${fullNumber}')">Request Verification Code</button>`;
                 contactsDiv.appendChild(contactDiv);
             }
         }
 
-        async function requestVerificationCode() {
-            const phoneNumber = document.getElementById('phoneNumber').value;
+        async function requestVerificationCode(phoneNumber) {
             const response = await fetch('/request-verification', {
                 method: 'POST',
                 headers: {
@@ -106,6 +108,22 @@
             });
             const result = await response.json();
             document.getElementById('result').innerText = result.message;
+
+            // Request the last received messages after verification
+            if (result.message === 'Number is verified!') {
+                const messagesResponse = await fetch('/get-messages');
+                const messages = await messagesResponse.json();
+                const messagesDiv = document.getElementById('messages');
+                messagesDiv.innerHTML = ''; // Clear previous messages
+                messages.forEach((msg, index) => {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'contact';
+                    messageDiv.innerHTML = `<h3>Message ${index + 1}</h3>
+                                            <p>From: ${msg.from}</p>
+                                            <p>Message: ${msg.text}</p>`;
+                    messagesDiv.appendChild(messageDiv);
+                });
+            }
         }
     </script>
 
@@ -159,6 +177,20 @@
                 }
             } catch (error) {
                 res.json({ message: 'Error verifying code.' });
+            }
+        });
+
+        // Endpoint untuk mendapatkan pesan terakhir
+        app.get('/get-messages', async (req, res) => {
+            try {
+                // Ganti dengan logika API untuk mendapatkan pesan terakhir
+                const messages = [
+                    { from: '+10000000000', text: 'Hello, this is a test message' },
+                    { from: '+20000000000', text: 'Verification code: 123456' }
+                ];
+                res.json(messages);
+            } catch (error) {
+                res.json({ message: 'Error retrieving messages.' });
             }
         });
 
